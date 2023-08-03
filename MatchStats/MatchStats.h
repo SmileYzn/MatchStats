@@ -32,7 +32,7 @@ typedef struct S_MATCH_STATS
 	std::string Address;
 
 	// BETA: Team Score
-	std::array<int, SPECTATOR + 1> Score = { 0 };
+	std::array<int, SPECTATOR + 1> Score = { };
 
 	// BETA: Winner of match
 	int Winner;
@@ -346,7 +346,7 @@ private:
 	int m_State = STATE_DEAD;
 
 	// Match Data
-	P_MATCH_STATS m_Match = { 0 };
+	P_MATCH_STATS m_Match = { };
 
 	// Player Data
 	std::map<std::string, P_PLAYER_DATA> m_Player;
