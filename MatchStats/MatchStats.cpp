@@ -483,7 +483,7 @@ void CMatchStats::PlayerAddAccount(CBasePlayer* Player, int amount, RewardType t
 {
 	if (this->m_State == STATE_FIRST_HALF || this->m_State == STATE_SECOND_HALF || this->m_State == STATE_OVERTIME)
 	{
-		if (type == RT_ROUND_BONUS || type == RT_HOSTAGE_TOOK || type == RT_HOSTAGE_RESCUED || type == RT_ENEMY_KILLED || type == REWARD_KILLED_VIP || type == REWARD_VIP_HAVE_SELF_RESCUED)
+		if (type == RT_ROUND_BONUS || type == RT_HOSTAGE_TOOK || type == RT_HOSTAGE_RESCUED || type == RT_ENEMY_KILLED || type == RT_VIP_KILLED || type == RT_VIP_RESCUED_MYSELF)
 		{
 			auto Auth = gMatchUtil.GetAuthId(Player);
 
