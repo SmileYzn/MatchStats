@@ -36,6 +36,9 @@ void CMatchStats::ServerActivate()
 
 	// Register Say Text messages
 	gMatchMessage.RegisterHook("SayText", this->SayText);
+
+	// Execute settings
+	gMatchUtil.ServerCommand("exec %s", MS_SETTINGS_PATH);
 }
 
 void CMatchStats::Cvar_DirectSet(struct cvar_s* var, const char* value)

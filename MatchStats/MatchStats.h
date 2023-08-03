@@ -1,5 +1,8 @@
 #pragma once
 
+// Match Stats Settings Path
+constexpr auto MS_SETTINGS_PATH = "cstrike/addons/matchstats/matchstats.cfg";;
+
 // Match Stats Path
 constexpr auto MS_SAVE_PATH = "cstrike/addons/matchstats/logs";
 

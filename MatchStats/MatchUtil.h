@@ -7,6 +7,7 @@ class CMatchUtil
 {
 public:
 	cvar_t* CvarRegister(const char* Name, const char* Value);
+	void ServerCommand(const char* Format, ...);
 	const char* GetAuthId(CBasePlayer* Player);
 	int MakeDirectory(const char* Path);
 	void ServerExecute(std::string Command);

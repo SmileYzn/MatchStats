@@ -27,6 +27,23 @@ cvar_t* CMatchUtil::CvarRegister(const char* Name, const char* Value)
 	return Pointer;
 }
 
+void CMatchUtil::ServerCommand(const char* Format, ...)
+{
+	char cmd[255] = { 0 };
+
+	va_list	argptr;
+
+	va_start(argptr, Format);
+
+	vsnprintf(cmd, sizeof(cmd), Format, argptr);
+
+	va_end(argptr);
+
+	Q_strncat(cmd, "\n", 1);
+
+	g_engfuncs.pfnServerCommand(cmd);
+}
+
 const char* CMatchUtil::GetAuthId(CBasePlayer* Player)
 {
 	if (Player)
@@ -77,12 +94,7 @@ void CMatchUtil::ServerExecute(std::string CommandData)
 
 	char ExecuteCommand[MAX_PATH] = { 0 };
 
-	Q_snprintf(ExecuteCommand, sizeof(ExecuteCommand), "exec %s\n", MATCH_API_TEMP_FILE);
-
-	if (ExecuteCommand[0])
-	{
-		g_engfuncs.pfnServerCommand(ExecuteCommand);
-	}
+	this->ServerCommand("exec %s", MATCH_API_TEMP_FILE);
 }
 
 bool CMatchUtil::PlayerIsVisible(int PlayerIndex, int TargetIndex)
