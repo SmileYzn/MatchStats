@@ -47,7 +47,7 @@ const char* CMatchUtil::GetAuthId(CBasePlayer* Player)
 
 int CMatchUtil::MakeDirectory(const char* Path)
 {
-	struct stat st = { 0 };
+	struct stat st = { };
 
 	if (stat(Path, &st) == -1)
 	{

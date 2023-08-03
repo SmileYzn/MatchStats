@@ -65,7 +65,7 @@ void CMatchCurl::PostJSON(const char* url, long Timeout, std::string BearerToken
 
 			if (ch)
 			{
-				this->m_Data[this->m_RequestIndex] = { 0 };
+				this->m_Data[this->m_RequestIndex] = { };
 
 				this->m_Data[this->m_RequestIndex].Callback = FunctionCallback;
 

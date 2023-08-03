@@ -543,7 +543,7 @@ void CMatchStats::RoundEnd(int winStatus, ScenarioEventEndRound eventScenario, f
 
 				this->m_Match.Score[Winner]++;
 
-				std::array<float, SPECTATOR + 1> TeamRoundDamage = { 0 };
+				std::array<float, SPECTATOR + 1> TeamRoundDamage = { };
 
 				for (int i = 1; i <= gpGlobals->maxClients; ++i)
 				{
@@ -842,7 +842,7 @@ void CMatchStats::PlayerSayText(CBasePlayer* Player, const char* TextMsg)
 				if (Auth)
 				{
 					// Chat struct
-					P_PLAYER_CHAT Chat = { 0 };
+					P_PLAYER_CHAT Chat = { };
 
 					// Set time
 					Chat.Time = time(NULL);
@@ -870,7 +870,7 @@ void CMatchStats::PlayerSayText(CBasePlayer* Player, const char* TextMsg)
 void CMatchStats::OnEvent(GameEventType event, int ScenarioEvent, CBaseEntity* pEntity, class CBaseEntity* pEntityOther)
 {
 	// Round event data
-	P_ROUND_EVENT Event = { 0 };
+	P_ROUND_EVENT Event = { };
 	
 	// Set event round cont
 	Event.Round = ((this->m_Match.Score[TERRORIST] + this->m_Match.Score[CT]) + 1);
@@ -1091,7 +1091,7 @@ void CMatchStats::ExportData()
 	// Player
 	for (auto const& Player : this->m_Player)
 	{
-		P_PLAYER_STATS PlayerStats = { 0 };
+		P_PLAYER_STATS PlayerStats = { };
 
 		for (auto const& Stats : Player.second.Stats)
 		{
@@ -1308,10 +1308,10 @@ void CMatchStats::ExportData()
 		gMatchUtil.MakeDirectory(MS_SAVE_PATH);
 
 		// File path buffer
-		char Buffer[MAX_PATH] = { 0 };
+		char Buffer[MAX_PATH] = { };
 
 		// Time string
-		char DateTime[24] = { 0 };
+		char DateTime[24] = { };
 
 		// Format time string
 		strftime(DateTime, sizeof(DateTime), "%Y-%m-%d-%H-%M-%S", localtime(&this->m_Match.EndTime));
