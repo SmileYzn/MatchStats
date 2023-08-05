@@ -97,6 +97,7 @@ typedef struct S_ROUND_STATS
 	bool BombDefused;		// BETA: Bomb Defused
 	bool BombExploded;		// BETA: Bomb Exploded
 	int Versus;				// BETA: Player is versus X players
+	float KillTime;			// BETA: Last Kill Time
 
 	// Damage dealt to other players
 	std::map<std::string, int> PlayerDamage;
@@ -145,6 +146,7 @@ typedef struct S_PLAYER_STATS
 	int FlyFrags;				// BETA: Flying Frags
 	int WallFrags;				// BETA: Wallbgang Frags
 	int	GodLikes;				// TODO: Count of times when a player killed the other accompanied by the wall
+	int DoubleKill;				// BETA: Double Kill
 
 	// TODO: Count of Knife Duels in match (0 Wins, 1 Loses)
 	std::array<int, 2> KnifeDuels;
@@ -207,6 +209,8 @@ typedef struct S_PLAYER_STATS
 		this->NoScope = 0;
 		this->FlyFrags = 0;
 		this->WallFrags = 0;
+		this->GodLikes = 0;
+		this->DoubleKill = 0;
 
 		// Entries
 		this->EntryFrags = 0;

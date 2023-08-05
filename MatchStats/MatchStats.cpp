@@ -347,6 +347,13 @@ void CMatchStats::PlayerKilled(CBasePlayer* Victim, entvars_t* pevKiller, entvar
 
 						this->m_Player[VictimAuth].Round.Deaths++;
 
+						if ((gpGlobals->time - this->m_Player[KillerAuth].Round.KillTime) < 0.25f)
+						{
+							this->m_Player[KillerAuth].Stats[this->m_State].DoubleKill++;
+						}
+
+						this->m_Player[KillerAuth].Round.KillTime = gpGlobals->time;
+
 						if (Victim->m_LastHitGroup == 1)
 						{
 							this->m_Player[KillerAuth].Stats[this->m_State].Headshots++;
@@ -1124,6 +1131,7 @@ void CMatchStats::ExportData()
 				PlayerStats.FlyFrags += Stats.second.FlyFrags;
 				PlayerStats.WallFrags += Stats.second.WallFrags;
 				PlayerStats.GodLikes += Stats.second.GodLikes;
+				PlayerStats.DoubleKill += Stats.second.DoubleKill;
 				//
 				// Knife Duels
 				for (size_t i = 0; i < Stats.second.KnifeDuels.size(); i++)
@@ -1220,6 +1228,7 @@ void CMatchStats::ExportData()
 			{"FlyFrags",PlayerStats.FlyFrags},
 			{"WallFrags",PlayerStats.WallFrags},
 			{"GodLikes",PlayerStats.GodLikes},
+			{"DoubleKill",PlayerStats.DoubleKill},
 			//
 			// Knife Duels
 			{"KnifeDuels",PlayerStats.KnifeDuels},
