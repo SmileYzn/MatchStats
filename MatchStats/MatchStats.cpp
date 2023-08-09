@@ -1095,7 +1095,11 @@ void CMatchStats::ExportData()
 		{"ScoreTRs", this->m_Match.Score[TERRORIST]},
 		{"ScoreCTs", this->m_Match.Score[CT]},
 		{"Winner", this->m_Match.Winner},
-		{"TotalRounds", this->m_Match.TotalRounds},
+		{"Rounds", this->m_Match.TotalRounds},
+		{"MaxRounds", 0},
+		{"MaxRoundsOT", 0},
+		{"GameMode", 0},
+		{"KnifeRound", 0},
 	};
 
 	// Player
@@ -1296,7 +1300,7 @@ void CMatchStats::ExportData()
 	// Round events
 	for (auto const& Event : this->m_RoundEvent)
 	{
-		Data["events"].push_back
+		Data["Events"].push_back
 		({
 			{"Round",Event.Round},
 			{"Time",Event.Time},
