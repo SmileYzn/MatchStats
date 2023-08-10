@@ -266,6 +266,7 @@ typedef struct S_PLAYER_DATA
 	// Player Data
 	std::string Name;			// BETA: Player Name
 	int Team;					// BETA: Plyer Team
+	int	Winner;					// BETA: Is Winner of match
 
 	// Player Stats
 	std::map<int, P_PLAYER_STATS> Stats;

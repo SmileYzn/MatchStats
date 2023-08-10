@@ -180,6 +180,18 @@ void CMatchStats::Cvar_DirectSet(struct cvar_s* var, const char* value)
 					// Set rounds played
 					this->m_Match.TotalRounds = (this->m_Match.Score[TERRORIST] + this->m_Match.Score[CT]);
 
+					// Loop player list
+					for (auto& Player : this->m_Player)
+					{
+						// Clear winner of match
+						Player.second.Winner = 0;
+						// If is in winner team
+						if (Player.second.Team == this->m_Match.Winner)
+						{
+							Player.second.Winner = 1;
+						}
+					}
+
 					// Export data
 					this->ExportData();
 					break;
@@ -1207,6 +1219,7 @@ void CMatchStats::ExportData()
 			{"DisconnectTime",Player.second.DisconnectTime},
 			{"Name",Player.second.Name},
 			{"Team",Player.second.Team},
+			{"Winner",Player.second.Winner},
 			//
 			// Player stats
 			{"Frags",PlayerStats.Frags},
