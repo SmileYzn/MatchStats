@@ -1235,7 +1235,8 @@ void CMatchStats::ExportData()
 			{"DoubleKill",PlayerStats.DoubleKill},
 			//
 			// Knife Duels
-			{"KnifeDuels",PlayerStats.KnifeDuels},
+			{"KnifeDuelWin",PlayerStats.KnifeDuels[0]},
+			{"KnifeDuelLose",PlayerStats.KnifeDuels[1]},
 			//
 			// Entry Frags and Deaths
 			{"EntryFrags",PlayerStats.EntryFrags},
