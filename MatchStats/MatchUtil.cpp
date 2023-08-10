@@ -92,8 +92,6 @@ void CMatchUtil::ServerExecute(std::string CommandData)
 		File.close();
 	}
 
-	char ExecuteCommand[MAX_PATH] = { 0 };
-
 	this->ServerCommand("exec %s", MATCH_API_TEMP_FILE);
 }
 
