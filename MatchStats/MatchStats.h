@@ -177,7 +177,7 @@ typedef struct S_PLAYER_STATS
 	// BETA: Versus: 1 vs X win situations
 	std::array<int, (MAX_CLIENTS / 2)> Versus;
 	
-	// BETA: HitBox (0 Hits, 1 Damage, 1 Hits Received, 3 Damage Received)
+	// BETA: HitBox (0 Hits, 1 Damage, 2 Hits Received, 3 Damage Received)
 	std::array<std::array<int, 4>, 9> HitBox;
 
 	// BETA: Weapon Stats
