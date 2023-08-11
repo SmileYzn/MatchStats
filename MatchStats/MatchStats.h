@@ -43,6 +43,18 @@ typedef struct S_MATCH_STATS
 	// BETA: Rounds Played
 	int Rounds;
 
+	// Number of rounds in match
+	int MaxRounds;
+
+	// Number of overtime rounds
+	int MaxRoundsOT;
+
+	// Game Mode: 0 Leaders Sorted, 1 Random Teams, 2 Not Sorted, 3 Skill Sorted, 4 Swap Teams, 5 Knife Round
+	int GameMode;
+
+	// Match will have Knife Round
+	int KnifeRound;
+
 	// Reset
 	void Reset()
 	{
@@ -54,6 +66,10 @@ typedef struct S_MATCH_STATS
 		this->Score.fill(0);
 		this->Winner = 0;
 		this->Rounds = 0;
+		this->MaxRounds = 0;
+		this->MaxRoundsOT = 0;
+		this->GameMode = 0;
+		this->KnifeRound = 0;
 	}
 
 	// Swap Scores
@@ -144,7 +160,7 @@ typedef struct S_PLAYER_STATS
 	int OneShot;				// BETA: One Shot Frags (Except for AWP)
 	int NoScope;				// BETA: No Scope Frags
 	int FlyFrags;				// BETA: Flying Frags
-	int WallFrags;				// BETA: Wallbgang Frags
+	int WallFrags;				// BETA: Wallbang Frags
 	int	GodLikes;				// TODO: Count of times when a player killed the other accompanied by the wall
 	int DoubleKill;				// BETA: Double Kill
 
@@ -349,6 +365,18 @@ private:
 
 	// Stats Remote API Bearer Token (Authentication Token or leave empty to disable)
 	cvar_t* m_api_bearer = nullptr;
+
+	// Number of rounds in match
+	cvar_t* m_max_rounds = nullptr;
+
+	// Number of overtime rounds
+	cvar_t* m_max_rounds_ot = nullptr;
+
+	// Game Mode: 0 Leaders Sorted, 1 Random Teams, 2 Not Sorted, 3 Skill Sorted, 4 Swap Teams, 5 Knife Round
+	cvar_t* m_game_mode = nullptr;
+
+	// Match will have Knife Round
+	cvar_t* m_knife_round = nullptr;
 
 	// Match State
 	int m_State = STATE_DEAD;

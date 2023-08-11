@@ -22,6 +22,18 @@ void CMatchStats::ServerActivate()
 	// Round Win Share: Extra amount added to player from winner team that defused the bomb
 	this->m_rws_c4_defused = gMatchUtil.CvarRegister("ms_rws_c4_defused", "30.0");
 
+	// Number of rounds in match
+	this->m_max_rounds = gMatchUtil.CvarRegister("ms_max_rounds", "30");
+
+	// Number of overtime rounds
+	this->m_max_rounds_ot = gMatchUtil.CvarRegister("ms_max_rounds_ot", "6");
+
+	// Game Mode: 0 Leaders Sorted, 1 Random Teams, 2 Not Sorted, 3 Skill Sorted, 4 Swap Teams, 5 Knife Round
+	this->m_game_mode = gMatchUtil.CvarRegister("ms_game_mode", "0");
+
+	// Match will have Knife Round
+	this->m_knife_round = gMatchUtil.CvarRegister("ms_knife_round", "0");
+
 	// Enable Stats Remote API (0 Disable, 1 Enable)
 	this->m_api_enable = gMatchUtil.CvarRegister("ms_api_enable", "0");
 
@@ -116,6 +128,18 @@ void CMatchStats::Cvar_DirectSet(struct cvar_s* var, const char* value)
 					
 					// Set rounds played
 					this->m_Match.Rounds = 0;
+
+					// Number of rounds in match
+					this->m_Match.MaxRounds = (int)this->m_max_rounds->value;
+
+					// Number of overtime rounds
+					this->m_Match.MaxRoundsOT = (int)this->m_max_rounds_ot->value;
+
+					// Game Mode: 0 Leaders Sorted, 1 Random Teams, 2 Not Sorted, 3 Skill Sorted, 4 Swap Teams, 5 Knife Round
+					this->m_Match.GameMode = (int)this->m_game_mode->value;
+
+					// Match will have Knife Round
+					this->m_Match.KnifeRound = (int)this->m_knife_round->value;
 					
 					// Loop each player
 					for (auto& Player : this->m_Player)
@@ -1115,10 +1139,10 @@ void CMatchStats::ExportData()
 		{"ScoreCTs", this->m_Match.Score[CT]},
 		{"Winner", this->m_Match.Winner},
 		{"Rounds", this->m_Match.Rounds},
-		{"MaxRounds", 0},
-		{"MaxRoundsOT", 0},
-		{"GameMode", 0},
-		{"KnifeRound", 0},
+		{"MaxRounds", this->m_Match.MaxRounds},
+		{"MaxRoundsOT", this->m_Match.MaxRoundsOT},
+		{"GameMode", this->m_Match.GameMode},
+		{"KnifeRound", this->m_Match.KnifeRound},
 	};
 
 	// Player
