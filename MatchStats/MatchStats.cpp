@@ -381,15 +381,18 @@ void CMatchStats::PlayerKilled(CBasePlayer* Victim, entvars_t* pevKiller, entvar
 
 							if (Player)
 							{
-								if (Player->m_iTeam == TERRORIST || Player->m_iTeam == CT)
+								if (!Player->IsDormant())
 								{
-									auto Auth = gMatchUtil.GetAuthId(Player);
-
-									if (Auth)
+									if (Player->m_iTeam == TERRORIST || Player->m_iTeam == CT)
 									{
-										if (this->m_Player[Auth].Round.PlayerDamage[VictimAuth] >= static_cast<int>(this->m_assistance_dmg->value))
+										auto Auth = gMatchUtil.GetAuthId(Player);
+
+										if (Auth)
 										{
-											this->m_Player[Auth].Stats[this->m_State].Assists++;
+											if (this->m_Player[Auth].Round.PlayerDamage[VictimAuth] >= static_cast<int>(this->m_assistance_dmg->value))
+											{
+												this->m_Player[Auth].Stats[this->m_State].Assists++;
+											}
 										}
 									}
 								}
@@ -894,14 +897,23 @@ void CMatchStats::OnEvent(GameEventType event, int ScenarioEvent, CBaseEntity* p
 	// Round event data
 	P_ROUND_EVENT Event = { };
 	
-	// Set event round cont
-	Event.Round = ((this->m_Match.Score[TERRORIST] + this->m_Match.Score[CT]) + 1);
-	
 	// If has ReGameDLL API Game Rules
 	if (g_pGameRules)
 	{
 		// Get round timer
 		Event.Time = CSGameRules()->GetRoundRemainingTimeReal();
+
+		// If round is not ended
+		if (CSGameRules()->m_iRoundWinStatus != WINSTATUS_NONE)
+		{
+			// Set event round count plus 1
+			Event.Round = ((this->m_Match.Score[TERRORIST] + this->m_Match.Score[CT]) + 1);
+		}
+		else
+		{
+			// Set event round count minus 1, since scores has already calculated
+			Event.Round = (this->m_Match.Score[TERRORIST] + this->m_Match.Score[CT]);
+		}
 	}
 	
 	// Store type of event
