@@ -904,7 +904,7 @@ void CMatchStats::OnEvent(GameEventType event, int ScenarioEvent, CBaseEntity* p
 		Event.Time = CSGameRules()->GetRoundRemainingTimeReal();
 
 		// If round is not ended
-		if (CSGameRules()->m_iRoundWinStatus != WINSTATUS_NONE)
+		if (CSGameRules()->m_iRoundWinStatus == WINSTATUS_NONE)
 		{
 			// Set event round count plus 1
 			Event.Round = ((this->m_Match.Score[TERRORIST] + this->m_Match.Score[CT]) + 1);
