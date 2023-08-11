@@ -897,23 +897,14 @@ void CMatchStats::OnEvent(GameEventType event, int ScenarioEvent, CBaseEntity* p
 	// Round event data
 	P_ROUND_EVENT Event = { };
 	
+	// Set event round count plus 1
+	Event.Round = ((this->m_Match.Score[TERRORIST] + this->m_Match.Score[CT]) + 1);
+
 	// If has ReGameDLL API Game Rules
 	if (g_pGameRules)
 	{
 		// Get round timer
 		Event.Time = CSGameRules()->GetRoundRemainingTimeReal();
-
-		// If round is not ended
-		if (CSGameRules()->m_iRoundWinStatus == WINSTATUS_NONE)
-		{
-			// Set event round count plus 1
-			Event.Round = ((this->m_Match.Score[TERRORIST] + this->m_Match.Score[CT]) + 1);
-		}
-		else
-		{
-			// Set event round count minus 1, since scores has already calculated but event is from current round
-			Event.Round = ((this->m_Match.Score[TERRORIST] + this->m_Match.Score[CT]) - 1);
-		}
 	}
 	
 	// Store type of event
