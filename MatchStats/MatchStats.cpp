@@ -115,7 +115,7 @@ void CMatchStats::Cvar_DirectSet(struct cvar_s* var, const char* value)
 					this->m_Match.Winner = 0;
 					
 					// Set rounds played
-					this->m_Match.TotalRounds = 0;
+					this->m_Match.Rounds = 0;
 					
 					// Loop each player
 					for (auto& Player : this->m_Player)
@@ -173,12 +173,6 @@ void CMatchStats::Cvar_DirectSet(struct cvar_s* var, const char* value)
 				{
 					// Set end time
 					this->m_Match.EndTime = time(0);
-					
-					// Set winner
-					this->m_Match.Winner = (this->m_Match.Score[TERRORIST] != this->m_Match.Score[CT]) ? (this->m_Match.Score[TERRORIST] > this->m_Match.Score[CT] ? 1 : 2) : 0;
-					
-					// Set rounds played
-					this->m_Match.TotalRounds = (this->m_Match.Score[TERRORIST] + this->m_Match.Score[CT]);
 
 					// Loop player list
 					for (auto& Player : this->m_Player)
@@ -564,10 +558,22 @@ void CMatchStats::RoundEnd(int winStatus, ScenarioEventEndRound eventScenario, f
 		{
 			if (winStatus == WINSTATUS_TERRORISTS || winStatus == WINSTATUS_CTS)
 			{
+				// Winner of Round
 				auto Winner = (winStatus == WINSTATUS_TERRORISTS) ? TERRORIST : CT;
 
+				// On Event Log
+				this->OnEvent((Winner == TERRORIST) ? EVENT_TERRORISTS_WIN : EVENT_CTS_WIN, (int)(eventScenario), nullptr, nullptr);
+
+				// Increment Score
 				this->m_Match.Score[Winner]++;
 
+				// Increment total rounds
+				this->m_Match.Rounds++;
+
+				// Calculate who is winning the match
+				this->m_Match.Winner = (this->m_Match.Score[TERRORIST] != this->m_Match.Score[CT]) ? (this->m_Match.Score[TERRORIST] > this->m_Match.Score[CT] ? 1 : 2) : 0;
+
+				//
 				std::array<float, SPECTATOR + 1> TeamRoundDamage = { };
 
 				for (int i = 1; i <= gpGlobals->maxClients; ++i)
@@ -664,8 +670,6 @@ void CMatchStats::RoundEnd(int winStatus, ScenarioEventEndRound eventScenario, f
 						}
 					}
 				}
-
-				this->OnEvent((winStatus == WINSTATUS_TERRORISTS) ? EVENT_TERRORISTS_WIN : EVENT_CTS_WIN, (int)(eventScenario), nullptr, nullptr);
 			}
 		}
 	}
@@ -1110,7 +1114,7 @@ void CMatchStats::ExportData()
 		{"ScoreTRs", this->m_Match.Score[TERRORIST]},
 		{"ScoreCTs", this->m_Match.Score[CT]},
 		{"Winner", this->m_Match.Winner},
-		{"Rounds", this->m_Match.TotalRounds},
+		{"Rounds", this->m_Match.Rounds},
 		{"MaxRounds", 0},
 		{"MaxRoundsOT", 0},
 		{"GameMode", 0},
@@ -1238,7 +1242,7 @@ void CMatchStats::ExportData()
 			{"Suicides",PlayerStats.Suicides},
 			//
 			// Round Win Share
-			{"RoundWinShare",(PlayerStats.RoundWinShare / (float)this->m_Match.TotalRounds)},
+			{"RoundWinShare",(PlayerStats.RoundWinShare / (float)this->m_Match.Rounds)},
 			//
 			// Misc Frags
 			{"BlindFrags",PlayerStats.BlindFrags},

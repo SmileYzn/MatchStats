@@ -41,7 +41,7 @@ typedef struct S_MATCH_STATS
 	int Winner;
 
 	// BETA: Rounds Played
-	int TotalRounds;
+	int Rounds;
 
 	// Reset
 	void Reset()
@@ -53,7 +53,7 @@ typedef struct S_MATCH_STATS
 		this->Address = "";
 		this->Score.fill(0);
 		this->Winner = 0;
-		this->TotalRounds = 0;
+		this->Rounds = 0;
 	}
 
 	// Swap Scores
