@@ -911,8 +911,8 @@ void CMatchStats::OnEvent(GameEventType event, int ScenarioEvent, CBaseEntity* p
 		}
 		else
 		{
-			// Set event round count minus 1, since scores has already calculated
-			Event.Round = (this->m_Match.Score[TERRORIST] + this->m_Match.Score[CT]);
+			// Set event round count minus 1, since scores has already calculated but event is from current round
+			Event.Round = ((this->m_Match.Score[TERRORIST] + this->m_Match.Score[CT]) - 1);
 		}
 	}
 	
