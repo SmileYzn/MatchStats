@@ -403,13 +403,16 @@ void CMatchStats::PlayerKilled(CBasePlayer* Victim, entvars_t* pevKiller, entvar
 								{
 									if (Player->m_iTeam == TERRORIST || Player->m_iTeam == CT)
 									{
-										auto Auth = gMatchUtil.GetAuthId(Player);
-
-										if (Auth)
+										if (Player->entindex() != KillerIndex)
 										{
-											if (this->m_Player[Auth].Round.PlayerDamage[VictimAuth] >= static_cast<int>(this->m_assistance_dmg->value))
+											auto Auth = gMatchUtil.GetAuthId(Player);
+
+											if (Auth)
 											{
-												this->m_Player[Auth].Stats[this->m_State].Assists++;
+												if (this->m_Player[Auth].Round.PlayerDamage[VictimAuth] >= (int)(this->m_assistance_dmg->value))
+												{
+													this->m_Player[Auth].Stats[this->m_State].Assists++;
+												}
 											}
 										}
 									}
