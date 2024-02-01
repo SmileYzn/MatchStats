@@ -6,11 +6,11 @@ CMatchMessage gMatchMessage;
 void CMatchMessage::RegisterHook(const char* MsgName, bool (*Function)(int msg_dest, int msg_type, const float* pOrigin, edict_t* pEntity))
 {
 	// Get message index from message name
-	auto MsgId = GET_USER_MSG_ID(PLID, MsgName, 0);
+	auto UserMsgId = gpMetaUtilFuncs->pfnGetUserMsgID(&Plugin_info, MsgName, 0);
 
-	if (MsgId)
+	if (UserMsgId)
 	{
-		this->m_Hook[MsgId].Function = Function;
+		this->m_Hook[UserMsgId].Function = Function;
 	}
 }
 
@@ -60,58 +60,58 @@ bool CMatchMessage::MessageEnd()
 			{
 				auto BlockMessage = ((bool(*)(int msg_dest, int msg_type, const float* pOrigin, edict_t * pEntity))Hook->second.Function)(this->m_Data.msg_dest, this->m_Data.msg_type, this->m_Data.pOrigin, this->m_Data.pEntity);
 
-				if (BlockMessage)
+				if (!BlockMessage)
 				{
-					MESSAGE_BEGIN(this->m_Data.msg_dest, this->m_Data.msg_type, this->m_Data.pOrigin, this->m_Data.pEntity);
+					g_engfuncs.pfnMessageBegin(this->m_Data.msg_dest, this->m_Data.msg_type, this->m_Data.pOrigin, this->m_Data.pEntity);
 
 					for (auto const& Param : this->m_Data.Param)
 					{
 						switch (Param.second.Type)
 						{
-							case MESSAGE_TYPE_BYTE:
-							{
-								WRITE_BYTE(Param.second.iValue);
-								break;
-							}
-							case MESSAGE_TYPE_CHAR:
-							{
-								WRITE_CHAR(Param.second.iValue);
-								break;
-							}
-							case MESSAGE_TYPE_SHORT:
-							{
-								WRITE_SHORT(Param.second.iValue);
-								break;
-							}
-							case MESSAGE_TYPE_LONG:
-							{
-								WRITE_LONG(Param.second.iValue);
-								break;
-							}
-							case MESSAGE_TYPE_ANGLE:
-							{
-								WRITE_ANGLE(Param.second.flValue);
-								break;
-							}
-							case MESSAGE_TYPE_COORD:
-							{
-								WRITE_COORD(Param.second.flValue);
-								break;
-							}
-							case MESSAGE_TYPE_STRING:
-							{
-								WRITE_STRING(Param.second.szValue);
-								break;
-							}
-							case MESSAGE_TYPE_ENTITY:
-							{
-								WRITE_ENTITY(Param.second.iValue);
-								break;
-							}
+						case MESSAGE_TYPE_BYTE:
+						{
+							g_engfuncs.pfnWriteByte(Param.second.iValue);
+							break;
+						}
+						case MESSAGE_TYPE_CHAR:
+						{
+							g_engfuncs.pfnWriteChar(Param.second.iValue);
+							break;
+						}
+						case MESSAGE_TYPE_SHORT:
+						{
+							g_engfuncs.pfnWriteShort(Param.second.iValue);
+							break;
+						}
+						case MESSAGE_TYPE_LONG:
+						{
+							g_engfuncs.pfnWriteLong(Param.second.iValue);
+							break;
+						}
+						case MESSAGE_TYPE_ANGLE:
+						{
+							g_engfuncs.pfnWriteAngle(Param.second.flValue);
+							break;
+						}
+						case MESSAGE_TYPE_COORD:
+						{
+							g_engfuncs.pfnWriteCoord(Param.second.flValue);
+							break;
+						}
+						case MESSAGE_TYPE_STRING:
+						{
+							g_engfuncs.pfnWriteString(Param.second.szValue);
+							break;
+						}
+						case MESSAGE_TYPE_ENTITY:
+						{
+							g_engfuncs.pfnWriteEntity(Param.second.iValue);
+							break;
+						}
 						}
 					}
 
-					MESSAGE_END();
+					g_engfuncs.pfnMessageEnd();
 				}
 			}
 		}
@@ -131,7 +131,7 @@ bool CMatchMessage::WriteByte(int iValue)
 {
 	if (this->m_MsgId)
 	{
-		P_MESSAGE_PARAM Param = { };
+		P_MESSAGE_PARAM Param = { 0 };
 
 		Param.Type = MESSAGE_TYPE_BYTE;
 		Param.iValue = iValue;
@@ -148,7 +148,7 @@ bool CMatchMessage::WriteChar(int iValue)
 {
 	if (this->m_MsgId)
 	{
-		P_MESSAGE_PARAM Param = { };
+		P_MESSAGE_PARAM Param = { 0 };
 
 		Param.Type = MESSAGE_TYPE_CHAR;
 		Param.iValue = iValue;
@@ -165,7 +165,7 @@ bool CMatchMessage::WriteShort(int iValue)
 {
 	if (this->m_MsgId)
 	{
-		P_MESSAGE_PARAM Param = { };
+		P_MESSAGE_PARAM Param = { 0 };
 
 		Param.Type = MESSAGE_TYPE_SHORT;
 		Param.iValue = iValue;
@@ -182,7 +182,7 @@ bool CMatchMessage::WriteLong(int iValue)
 {
 	if (this->m_MsgId)
 	{
-		P_MESSAGE_PARAM Param = { };
+		P_MESSAGE_PARAM Param = { 0 };
 
 		Param.Type = MESSAGE_TYPE_LONG;
 		Param.iValue = iValue;
@@ -199,7 +199,7 @@ bool CMatchMessage::WriteAngle(float flValue)
 {
 	if (this->m_MsgId)
 	{
-		P_MESSAGE_PARAM Param = { };
+		P_MESSAGE_PARAM Param = { 0 };
 
 		Param.Type = MESSAGE_TYPE_ANGLE;
 		Param.flValue = flValue;
@@ -216,7 +216,7 @@ bool CMatchMessage::WriteCoord(float flValue)
 {
 	if (this->m_MsgId)
 	{
-		P_MESSAGE_PARAM Param = { };
+		P_MESSAGE_PARAM Param = { 0 };
 
 		Param.Type = MESSAGE_TYPE_COORD;
 		Param.flValue = flValue;
@@ -233,7 +233,7 @@ bool CMatchMessage::WriteString(const char* szValue)
 {
 	if (this->m_MsgId)
 	{
-		P_MESSAGE_PARAM Param = { };
+		P_MESSAGE_PARAM Param = { 0 };
 
 		Param.Type = MESSAGE_TYPE_STRING;
 
@@ -251,7 +251,7 @@ bool CMatchMessage::WriteEntity(int iValue)
 {
 	if (this->m_MsgId)
 	{
-		P_MESSAGE_PARAM Param = { };
+		P_MESSAGE_PARAM Param = { 0 };
 
 		Param.Type = MESSAGE_TYPE_ENTITY;
 		Param.iValue = iValue;

@@ -110,7 +110,7 @@ private:
 	int m_MsgId = 0;
 
 	// Message Data
-	P_MESSAGE_DATA m_Data = { };
+	P_MESSAGE_DATA m_Data = { 0 };
 
 	// Message Hooks
 	std::map<int, MESSAGE_BEGIN_FUNC> m_Hook;
